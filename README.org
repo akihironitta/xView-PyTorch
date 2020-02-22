@@ -1,0 +1,51 @@
+* DESCRIPTION
+
+  This is a PyTorch implementation of data utilities for [[http://xviewdataset.org/][xView Detection Challenge dataset]].
+  =XviewDataset= is a subclass of =torchvision.datasets.vision.VisionDataset= similarly to =torchvision.datasets.VOCDetection= and =torchvision.datasets.CocoDetection=.
+  
+  Given an =index=, =XviewDataset= returns =PIL.Image= and a list of dictionaries in the image.
+  Each dictionary describes an object consisting of elements with the keys, ="image_id"=, ="bbox"=, and ="category_id"=.
+  | key           | value                                                                   |
+  |---------------+-------------------------------------------------------------------------|
+  | "image_id"    | int (e.g. =1468=)                                                       |
+  | "bbox"        | list of int in =[x, y, width, height]= format (e.g. =[0, 0, 100, 100]=) |
+  | "category_id" | int (e.g. =77= for "Building")                                          |
+  
+* Usage
+
+  #+begin_src sh
+  git clone https://github.com/akihironitta/xView-PyTorch.git
+  cd xView-PyTorch
+  #+end_src
+
+  Just use =XviewDataset= class in your PyTorch code:
+  #+begin_src python
+  from datasets import XviewDataset
+
+  ds = XviewDataset(root="/path/to/image_dir/",
+                    annFile="/path/to/annotation_file.json")
+  img, target = ds[0]  # take the 0th image and objects in it.
+  print(img)           # <PIL.Image.Image image mode=RGB size=3070x2810 at 0x7F40A59C9C50>
+  print(target)        # [{'image_id': 1468, 'bbox': [2479, 1522, 166, 168], 'category_id': 73}, ...]
+  #+end_src
+
+  To view an image with bouding boxes:
+  #+begin_src sh
+  python view.py 0 --output /path/to/output_dir/
+  #+end_src
+  
+  To save an image with bouding boxes:
+  #+begin_src sh
+  python view.py 0 --output /path/to/output_dir/
+  #+end_src
+
+  You can also view or save multiple images by:
+  #+begin_src sh
+  python view.py 0 1 2 3
+  python view.py 0 1 2 3 --output /path/to/output_dir/
+  #+end_src
+
+* SEE ALSO
+  The official TensorFlow implementation by DIUx is available at:
+  1. [[https://github.com/DIUx-xView/data_utilities][data utilities]]
+  2. [[https://github.com/DIUx-xView/xview2018-baseline][baseline models]]
